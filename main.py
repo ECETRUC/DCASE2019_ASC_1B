@@ -50,9 +50,8 @@ from DCASE2019_models import model_best2019_base1, model_best2019_base2
 
 from DCASE_training_functions import LR_WarmRestart
 
-from utils.DCASE_plots import plot_confusion_matrix
-from utils.log_utils import setup_logging, FancyLogger, Timer
-from utils.callbacks import ProgressLoggerCallback, StasherCallback, SnapshotCallback
+from DCASE_plots import plot_confusion_matrix
+from log_utils import setup_logging, FancyLogger, Timer
 
 
 from mixup_generator import MixupGenerator
@@ -126,7 +125,7 @@ model_names = [
 
 #def main():
 # In[]: Manage path for storing system outputs
-Basepath = '/clusterFS/home/user/truc/DCASE2019/NEW_BASELINE/'
+Basepath = os.getcwd() + '/'  #'/clusterFS/home/user/truc/DCASE2019/NEW_BASELINE/'
 spectrum_path = Basepath + 'system_outputs/task1b/spectrums/'
 if not os.path.exists(spectrum_path):
     os.makedirs(spectrum_path)
