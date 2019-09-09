@@ -150,31 +150,7 @@ log_path = Basepath + 'log/'
 if not os.path.exists(log_path):
     os.makedirs(log_path)   
     
-## In[]: Manage path for storing system outputs
-#Basepath = '/clusterFS/home/user/truc/DCASE2019/NEW_BASELINE/'
-#spectrum_path = Basepath + 'system_outputs/task1b_128_431/spectrums/'
-#if not os.path.exists(spectrum_path):
-#    os.makedirs(spectrum_path)
-#    
-#feature_path = Basepath + 'system_outputs/task1b_128_431/features/'
-#if not os.path.exists(feature_path):
-#    os.makedirs(feature_path)
-#    
-#normalization_path = Basepath + 'system_outputs/task1b_128_431/normalizations/'
-#if not os.path.exists(normalization_path):
-#    os.makedirs(normalization_path)
-#    
-#model_path = Basepath + 'system_outputs/task1b_128_431/learners/'
-#if not os.path.exists(model_path):
-#    os.makedirs(model_path)
-#
-#result_path = Basepath + 'system_outputs/task1b_128_431/recognizers/'
-#if not os.path.exists(result_path):
-#    os.makedirs(result_path)
-#    
-#log_path = Basepath + 'log_128_431/'
-#if not os.path.exists(log_path):
-#    os.makedirs(log_path)   
+ 
 # In[ ]:Set loging file
 '''
 from utils.log_utils import setup_logging, FancyLogger, Timer
