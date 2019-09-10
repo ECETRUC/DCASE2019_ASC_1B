@@ -6,7 +6,7 @@ from keras.regularizers import l2
 from keras.models import Model
 
 #network definition
-def model_best2019_base1(x1, n_labels, wd, name='best2019_base1_fcl'):
+def model_best2019_base1(x1, n_labels, wd, name='best2019_base1'):
     # DOnt use Input layer for MoE, Should use outside
     # first layer has 16 convolution filters 
     x1_tensor = Input(x1.shape[1:], name='Input1')
