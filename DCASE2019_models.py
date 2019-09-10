@@ -14,27 +14,27 @@ def model_best2019_base1(x1, n_labels, wd, name='best2019_base1_fcl'):
                        kernel_initializer='glorot_uniform', 
                        kernel_regularizer=l2(wd))(x1_tensor)
     x1 = Activation('relu')(x1)
-    x1 = BatchNormalization(axis=1)(x1)
+    x1 = BatchNormalization(axis=3)(x1)
     
     # next layer has 32 convolution filters, 
     x1 = Convolution2D(32, kernel_size=3, strides=2, 
                        kernel_regularizer=l2(wd))(x1)
     x1 = Activation('relu')(x1)
-    x1 = BatchNormalization(axis=1)(x1)
+    x1 = BatchNormalization(axis=3)(x1)
     x1 = Convolution2D(32, kernel_size=3, strides=1, 
                        kernel_regularizer=l2(wd))(x1)
     x1 = Activation('relu')(x1)
-    x1 = BatchNormalization(axis=1)(x1)
+    x1 = BatchNormalization(axis=3)(x1)
     
     # next layer has 64 convolution filters
     x1 = Convolution2D(64, kernel_size=3, strides=2, 
                        kernel_regularizer=l2(wd))(x1)
     x1 = Activation('relu')(x1)
-    x1 = BatchNormalization(axis=1)(x1)
+    x1 = BatchNormalization(axis=3)(x1)
     x1 = Convolution2D(64, kernel_size=3, strides=1, 
                        kernel_regularizer=l2(wd))(x1)
     x1 = Activation('relu')(x1)
-    x1 = BatchNormalization(axis=1)(x1)
+    x1 = BatchNormalization(axis=3)(x1)
     
     # Global average pooling    
     x1 = GlobalAveragePooling2D(data_format='channels_last')(x1)
@@ -53,37 +53,37 @@ def model_best2019_base2(x1, n_labels, wd, name='best2019_base2'):
                        kernel_initializer='glorot_uniform', 
                        kernel_regularizer=l2(wd))(x1_tensor)
     x1 = Activation('relu')(x1)
-    x1 = BatchNormalization(axis=1)(x1)
+    x1 = BatchNormalization(axis=3)(x1)
     
     # next layer has 32 convolution filters, 
     x1 = Convolution2D(32, kernel_size=3, strides=2, 
                        kernel_regularizer=l2(wd))(x1)
     x1 = Activation('relu')(x1)
-    x1 = BatchNormalization(axis=1)(x1)
+    x1 = BatchNormalization(axis=3)(x1)
     x1 = Convolution2D(32, kernel_size=3, strides=1, 
                        kernel_regularizer=l2(wd))(x1)
     x1 = Activation('relu')(x1)
-    x1 = BatchNormalization(axis=1)(x1)
+    x1 = BatchNormalization(axis=3)(x1)
     
     # next layer has 64 convolution filters
     x1 = Convolution2D(64, kernel_size=3, strides=2, 
                        kernel_regularizer=l2(wd))(x1)
     x1 = Activation('relu')(x1)
-    x1 = BatchNormalization(axis=1)(x1)
+    x1 = BatchNormalization(axis=3)(x1)
     x1 = Convolution2D(64, kernel_size=3, strides=1, 
                        kernel_regularizer=l2(wd))(x1)
     x1 = Activation('relu')(x1)
-    x1 = BatchNormalization(axis=1)(x1)
+    x1 = BatchNormalization(axis=3)(x1)
     
     # next layer has 128 convolution filters
     x1 = Convolution2D(128, kernel_size=3, strides=2, 
                        kernel_regularizer=l2(wd))(x1)
     x1 = Activation('relu')(x1)
-    x1 = BatchNormalization(axis=1)(x1)
+    x1 = BatchNormalization(axis=3)(x1)
     x1 = Convolution2D(128, kernel_size=3, strides=1, 
                        kernel_regularizer=l2(wd))(x1)
     x1 = Activation('relu')(x1)
-    x1 = BatchNormalization(axis=1)(x1)
+    x1 = BatchNormalization(axis=3)(x1)
     
     # Global average pooling    
     x1 = GlobalAveragePooling2D(data_format='channels_last')(x1)
