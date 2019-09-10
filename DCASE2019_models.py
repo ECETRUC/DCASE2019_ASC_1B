@@ -4,7 +4,7 @@ from keras.layers import Conv2D, BatchNormalization, Activation, GlobalAveragePo
 from keras.layers import AveragePooling2D, Input, concatenate, Lambda, Dense, Convolution2D, MaxPooling2D
 from keras.regularizers import l2
 from keras.models import Model
-from DenseMoE import DenseMoE
+
 #network definition
 def model_best2019_base1(x1, n_labels, wd, name='best2019_base1_fcl'):
     # DOnt use Input layer for MoE, Should use outside
@@ -93,76 +93,6 @@ def model_best2019_base2(x1, n_labels, wd, name='best2019_base2'):
 
     model = Model(inputs=x1_tensor, outputs=output)
     return model 
-
-def create_model_db_3cnn_nexp(x1, n_layerexperts, n_labels, name='db_3cnn'):
-    # DOnt use Input layer for MoE, Should use outside
-    # first layer has 32 convolution filters 
-    x1_tensor = Input(x1.shape[1:], name='Input1')
-    x1 = BatchNormalization(axis=1)(x1_tensor)
-    x1 = Convolution2D(32, kernel_size=3, padding='same', kernel_initializer='glorot_uniform')(x1_tensor)
-    x1 = Activation('relu')(x1)
-    x1 = BatchNormalization(axis=1)(x1)
-    x1 = Convolution2D(32, kernel_size=3, padding='same')(x1)
-    x1 = Activation('relu')(x1)
-    x1 = MaxPooling2D(pool_size=(3,3))(x1)
-    
-    # next layer has 128 convolution filters
-    x1 = BatchNormalization(axis=1)(x1)
-    x1 = Convolution2D(128, kernel_size=3, padding='same', kernel_initializer='glorot_uniform')(x1)
-    x1 = Activation('relu')(x1)
-    x1 = BatchNormalization(axis=1)(x1)
-    x1 = Convolution2D(128, kernel_size=3, padding='same')(x1)
-    x1 = Activation('relu')(x1)
-    x1 = MaxPooling2D(pool_size=(3,3))(x1)
-    
-    # next layer has 256 convolution filters
-    x1 = BatchNormalization(axis=1)(x1)
-    x1 = Convolution2D(256, kernel_size=3, padding='same', kernel_initializer='glorot_uniform')(x1)
-    x1 = Activation('relu')(x1)
-    x1 = BatchNormalization(axis=1)(x1)
-    x1 = Convolution2D(256, kernel_size=3, padding='same')(x1)
-    x1 = Activation('relu')(x1)
-    x1 = GlobalAveragePooling2D(data_format='channels_last')(x1)
-    # interpretation model
-    if n_layerexperts==0:
-        x1 = Dense(256, activation='relu')(x1)
-    else:
-        x1 = DenseMoE(256, n_experts = n_layerexperts, expert_activation='relu', gating_activation='softmax')(x1)
-    output = Dense(n_labels, activation='softmax')(x1)
-
-    model = Model(inputs=x1_tensor, outputs=output)
-    return model 
-
-## define stacked model from multiple member input models
-def create_stacked_model_MoE(n_classes, members, n_experts):
-    # update all layers in all models to not be trainable
-    for i in range(len(members)):
-        model = members[i]
-        for ii, layer in enumerate(model.layers):
-            # make not trainable
-            layer.trainable = False
-            # rename to avoid 'unique layer name' issue
-            layer.name = 'ensemble_' + str(i+1) + '_' + layer.name
-
-            # define multi-headed input
-    ensemble_visible = [model.input for i, model in enumerate(members)]
-
-    # concatenate merge output from each model
-    ensemble_outputs = [model.output for model in members]
-    merge = concatenate(ensemble_outputs)
-    feature_length=merge.get_shape().as_list()[-1]
-    print('feature_length = {}'.format(feature_length))
-    if n_experts==0:
-        hidden = Dense(feature_length, activation='relu')(merge)
-#       hidden = GaussianNoise(0.1)(hidden) # test Gaussian noise layer
-    else:
-        hidden = DenseMoE(feature_length, n_experts = n_experts, expert_activation='relu', gating_activation='softmax')(merge)
-#    hidden = Dense(500, activation='relu')(hidden)
-    output = Dense(n_classes, activation='softmax')(hidden)
-    model = Model(inputs=ensemble_visible, outputs=output)
-
-    return model
-
 
 
 def resnet_layer(inputs,num_filters=16,kernel_size=3,strides=1,learn_bn = True,wd=1e-4,use_relu=True):
